@@ -1,0 +1,43 @@
+\documentclass[pdftex,12pt,a4paper]{article}
+\input{preambulo}
+\title{Compilador \\ Implementação}
+\author{Bruno de Brito Coimbra}
+\begin{document}
+\input{macros}
+
+  %%% Capa
+  \input{capa}
+  \clearpage
+
+  %%% Folha Rosto
+  \input{folharosto}
+  \clearpage
+
+  %%% Agradecimentos
+  \input{agradecimentos}
+  \clearpage
+
+  %%% Epigrafe
+  \input{epigrafe}
+  \clearpage
+
+  %%% Indice
+  \renewcommand\thepage{}
+  \setcounter{tocdepth}{1}
+  \tableofcontents
+  \clearpage
+
+
+  %%% Capitulos
+  \include{resumo}
+  \include{resumo_en}
+  \renewcommand\thepage{\arabic{page}}
+  \setcounter{page}{1}
+  \include{introducao}
+	\include{ref_teorico}
+	\include{implementacao}
+  \include{conclusao}
+  \include{bibliografia}
+  \include{apendices}
+
+\end{document}
