@@ -1,8 +1,50 @@
 \section{Referencial Teórioco}
 \subsection{Compiladores}
-Segundo \citeonline{new-dragon-pt}, \emph{compilador} é um programa que traduz uma
+Segundo \citeonline{new-dragon-pt}, \compilador é um programa que traduz uma
 linguagem para um formato que um computador possa executar. Um compilador recebe
 como entrada um arquivo contendo um programa escrito em uma linguagem previamente
-determinada e produz como saída um programa executável semanticamente equivalente
-ao programa recebido como entrada.
+determinada e produz como saída um programa objeto semanticamente equivalente
+ao programa recebido como entrada. Dessa forma, podemos dizer que um \compilador é,
+também, um tradutor. Adicionalmente o \compilador tem como tarefa reportar os
+erros encontrados durante o processo de tradução.
 
+O processo de tradução efetuado pelo \compilador, geralmente, é dividido em
+algumas etapas, conforme listado abaixo \cite{louden97-pt}:
+
+\begin{itemize}
+	\item Analisador Léxico;
+	\item Analisador Sintático;
+	\item Analisador Semântico;
+	\item Gerador de Código.
+\end{itemize}
+
+O \emph{Analisador Léxico} é o responsável por agrupar os caracteres, contidos
+no arquivo do programa-fonte, em unidades significativas, chamadas
+\emph{tokens}, e encaminha-las para o \emph{Analisador Sintático}.
+
+Por sua vez, o \emph{Analisador Sintático} verifica se o fluxo de tokens
+recebidos pelo Analisador Léxico é valido para a gramática (ou linguagem) que
+foi definida. Usualmente o Analisador Sintático produz uma estrutura
+(geralmente do tipo árvore) que representa o programa fonte
+\cite{new-dragon-pt}.
+
+O \emph{Analisador Semântico} recebe a estrutura produzida pelo Analisador
+Sintático e, principalmente, verifica a se as operações são coerentes para os
+tipos de dados utilizados e faz a inferência dos tipos de dados. Ao final do
+processo temos uma \emph{Árvore Anotada}. As notas (informações de inferência,
+por exemplo) podem ser incluidas diretamente na estrutura recebida do
+Analisador Sintático, ou numa estrutura auxiliar como uma \emph{Tabela de
+Símbolos}.
+
+Estando a Árvore Anotada disponível para o \emph{Gerador de Código}, este
+executa a tradução das estruturas recebidas para o programa-objeto. Nessa fase
+da compilação podem ser incluidas otimizações para que o programa traduzido
+execute de forma mais eficiente.
+
+Nas subseções seguintes, discutiremos mais profundamente cada uma dessas etapas
+do processo de compilação.
+
+\input{analise_lexica}
+\input{analise_sintatica}
+\input{analise_semantica}
+\input{geracao_codigo}
