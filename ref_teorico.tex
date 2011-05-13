@@ -1,15 +1,16 @@
 \section{Referencial Teórioco}
 \subsection{Compiladores}
-Segundo \citeonline{new-dragon-pt}, \compilador é um programa que traduz uma
-linguagem para um formato que um computador possa executar. Um compilador recebe
+Segundo \citeonline{new-dragon-pt}, \compilador{} é um programa que traduz um
+programa-fonte para um programa-objeto. Se o programa-objeto for executável,
+então ele estará num formato que um computador possa executa-lo. Dessa forma, um compilador recebe
 como entrada um arquivo contendo um programa escrito em uma linguagem previamente
-determinada e produz como saída um programa objeto semanticamente equivalente
+determinada (programa-fonte) e produz como saída um programa objeto semanticamente equivalente
 ao programa recebido como entrada. Dessa forma, podemos dizer que um \compilador é,
 também, um tradutor. Adicionalmente o \compilador tem como tarefa reportar os
 erros encontrados durante o processo de tradução.
 
-O processo de tradução efetuado pelo \compilador, geralmente, é dividido em
-algumas etapas, conforme listado abaixo \cite{louden97-pt}:
+O \compilador pode ser dividido em alguns módulos para efetuar o processo de
+tradução. A lista abaixo foi proposta por \citeonline{louden97-pt}:
 
 \begin{itemize}
 	\item Analisador Léxico;
@@ -25,7 +26,7 @@ no arquivo do programa-fonte, em unidades significativas, chamadas
 Por sua vez, o \emph{Analisador Sintático} verifica se o fluxo de tokens
 recebidos pelo Analisador Léxico é valido para a gramática (ou linguagem) que
 foi definida. Usualmente o Analisador Sintático produz uma estrutura
-(geralmente do tipo árvore) que representa o programa fonte
+(tipicamente uma do tipo árvore) que representa o programa fonte
 \cite{new-dragon-pt}.
 
 O \emph{Analisador Semântico} recebe a estrutura produzida pelo Analisador
@@ -40,6 +41,9 @@ Estando a Árvore Anotada disponível para o \emph{Gerador de Código}, este
 executa a tradução das estruturas recebidas para o programa-objeto. Nessa fase
 da compilação podem ser incluidas otimizações para que o programa traduzido
 execute de forma mais eficiente.
+
+Podem haver outras fases intermediárias durante o processo, como, por exemplo,
+as fases de Otimização de Código, dependentes ou não da máquina-alvo.
 
 Nas subseções seguintes, discutiremos mais profundamente cada uma dessas etapas
 do processo de compilação.
