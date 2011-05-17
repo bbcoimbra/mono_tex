@@ -48,11 +48,11 @@ Segundo \citeonline{regex-jargas}:
 	seja, obedecer exatamente a todas as suas condições
 \end{citacao}
 
-As expressões regulares ão uma importante notação para especificar os padrões
+As expressões regulares são uma importante notação para especificar os padrões
 dos lexemas. Mesmo não podendo especificar todos os padrões possíveis elas são
 muito eficientes para o propósito de especificar os tokens que necessitamos.
 
-Definições \cite{new-dragon-pt}:
+\textbf{Definições} (segundo \citeonline{new-dragon-pt}):
 \begin{description}
 	\item[Alfabeto] é qualquer conjunto finito de símbolos. Temos como exemplos
 		de símbolos as letras, dígitos etc. O conjunto $\{0, 1\}$ representa o
@@ -63,4 +63,32 @@ Definições \cite{new-dragon-pt}:
 		indicada por $\epsilon$, tem tamanho zero.
 	\item[Linguagem] é qualquer conjunto contável de cadeias de algum alfabeto.
 \end{description}
+
+\textbf{Expressão Regular Básica} são, simplesmente, os caracteres separados do
+alfabeto que casam com eles mesmos. Por exemplo, dado que definimos o conjunto
+dos caracteres ASCII como nosso alfabeto, a expressão regular $/a/$ casa com o
+caractere \textbf{a}.
+
+Há três operações básicas utilizando Expressões Regulares conforme descritas
+abaixo \cite{louden97-pt}:
+
+\begin{description}
+	\item[Escolha Entre Alternativas] Dado que $r$ e $s$ são expressões
+		regulares, então $r | s$ é uma expressão regular que case com a expressão
+		$r$ ou com a expressão $s$. Exemplo: dado que $r$ seja a expressão regular
+		$/a/$ e $s$ a expressão regular $/b/$, $r | s$ casa com o caractere
+		\textbf{a} ou o caractere \textbf{b}.
+	\item[Concatenação] A concatenação de duas expressões regulares $r$ e $s$ é
+		da pela expressão $rs$ e casa com qualquer cadeia que case com a expressão
+		regular $r$ seguida pela expressão regular $s$. Exemplo: dado que $r$ seja
+		a expressão regular $/ca/$ e $s$ a expressão regular $/sa/$, $rs$ casa
+		com a cadeia ``casa''.
+	\item[Repetição] Também conhecida como fecho de Kleene, é denotada por $r*$,
+		em que $r$ é uma expressão regular. A expressão regular $r*$ representa o
+		conjunto de cadeias obtidas pela concatenação de zero ou mais expressões
+		regulares $r$. Exemplo: dada a expressão regular $/a*/$, esta expressão
+		casa com as cadeias \textbf{$\epsilon$}, \textbf{a}, \textbf{aa},
+		\textbf{aaa}, \textbf{aaaa}, \dots.
+\end{description}
+
 
