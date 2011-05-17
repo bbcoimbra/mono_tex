@@ -32,4 +32,35 @@ Ao invez disso, a demanda de análise dos tokens fica sob a responsabilidade do
 Analisador Sintático, que recebe os tokens ativando uma função disponibilizada
 pelo Analisador Léxico \cite{louden97-pt}.
 
+O reconhecimento dos tokens é feito utilizando duas técnicas principais:
+\emph{Expressões Regulares e Autômatos Finitos}.
+
+\subsubsection{Expressões Regulares}
+
+Segundo \citeonline{regex-jargas}:
+\begin{citacao}{4cm}{0cm} \footnotesize \emph
+	Resumidamente, uma expressão regular é um método formal de se especificar um padrão de texto.
+
+	Mais detalhadamente, é uma composição de símbolos, caracteres com funções
+	especiais, que, agrupados entre si e com caracteres literais, formam uma
+	seqüência, uma expressão. Essa expressão é interpretada como uma regra, que
+	indicará sucesso se uma entrada de dados qualquer casar com essa regra, ou
+	seja, obedecer exatamente a todas as suas condições
+\end{citacao}
+
+As expressões regulares ão uma importante notação para especificar os padrões
+dos lexemas. Mesmo não podendo especificar todos os padrões possíveis elas são
+muito eficientes para o propósito de especificar os tokens que necessitamos.
+
+Definições \cite{new-dragon-pt}:
+\begin{description}
+	\item[Alfabeto] é qualquer conjunto finito de símbolos. Temos como exemplos
+		de símbolos as letras, dígitos etc. O conjunto $\{0, 1\}$ representa o
+		\emph{alfabeto binário}.
+	\item[Cadeia] em um alfabeto é uma sequência finita de símbolos retirados de
+		alfabeto. Normalmente, o tamanho da cadeia $s$ é dado por $|s|$. Por
+		exemplo ``compilador'' é uma cadeia de tamanho 10. A cadeia vazia,
+		indicada por $\epsilon$, tem tamanho zero.
+	\item[Linguagem] é qualquer conjunto contável de cadeias de algum alfabeto.
+\end{description}
 
