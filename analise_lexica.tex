@@ -1,1 +1,35 @@
 \subsection{Analise Léxica}
+
+O processo de Analise Léxica consiste em agrupar os caracteres do arquivo de
+entrada em unidades numa estrutura chamada \token. Um token também é chamado
+de \emph{lexema}.
+
+Segundo \citeonline{dict-aurelio}, ``lexema é o elemento que encerra o
+significado da palavra''. Ou seja, é o menor conjunto de caracteres
+representativos para uma gramática de uma linguagem. Dessa forma, o Analisador
+Léxico remove a responsabilidade de representar os tokens do Analisador
+Sintático, simplificando sua implementação.
+
+Segundo \citeonline{new-dragon-pt}, os tokens são definidos como segue:
+
+\begin{citacao}{4cm}{0cm}\footnotesize \emph
+	Um token consiste em dois componentes, um nome de token e um balor de
+	atributo. Os nomes de token são símbolos abstratos usados pelo analisador para
+	fazer o reconhecimento sintático. Frequentemente, chamamos esses nomes de
+	token de \emph{terminais}, uma vez que eles aparecem como \emph{símbolos
+	terminais} na gramática para uma linguagem de programação. O valor do
+	atributo, se houver, é um apontador para a tabela de símbolos que contém
+	informações adicionais sobre o token. (\ldots).
+\end{citacao}
+
+Ainda segundo \citeonline{new-dragon-pt}, o Analisador Léxico possui algumas
+atribuições adicionais, como por exemplo, remover espaços em branco e
+comentários, efetuar contagem de linhas correlacionando um erro com o número
+da linha em que este foi encontrado.
+
+Tipicamente, o Analisador Léxico não gera o todo o fluxo de tokens de uma vez.
+Ao invez disso, a demanda de análise dos tokens fica sob a responsabilidade do
+Analisador Sintático, que recebe os tokens ativando uma função disponibilizada
+pelo Analisador Léxico \cite{louden97-pt}.
+
+
