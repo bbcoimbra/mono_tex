@@ -24,10 +24,11 @@
 \usepackage{listings}
 \usepackage{courier}
 \lstset{
-         basicstyle=\footnotesize\ttfamily, % Standardschrift
-         %numbers=left,
+         basicstyle=\tiny\ttfamily, % Standardschrift
+				 language=C,
+         numbers=left,
          numberstyle=\tiny,
-         %stepnumber=2,
+         stepnumber=1,
          numbersep=5pt,
          tabsize=2,
          extendedchars=true,
@@ -38,7 +39,7 @@
          %keywordstyle=[2]\textbf,
          %keywordstyle=[3]\textbf,
          %keywordstyle=[4]\textbf,
-         stringstyle=\color{white}\ttfamily,
+         stringstyle=\color{black}\ttfamily,
          showspaces=false,
          showtabs=false,
          xleftmargin=17pt,
@@ -49,7 +50,6 @@
          showstringspaces=false
  }
 
-\lstloadlanguages{C}
 \usepackage{caption}
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35,0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
