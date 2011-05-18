@@ -1,1 +1,96 @@
 \section{Implementação}
+
+Para a implementação desse trabalho, foi definida a gramática exibida na
+listagem \ref{lst:grammar}. Ela gera uma linguagem simples que opera sobre
+inteiros, mas suficientemente completa para atingir os objetivos deste
+trabalho.
+\begin{lstlisting}[label=lst:grammar,caption=Gramática reconhecida]
+  program : stmts
+          ;
+
+  stmts : stmts stmt
+        | stmt
+        ;
+
+  stmt  : if_decl SEMI
+        | while_decl SEMI
+        | attrib_decl SEMI
+        | read_decl SEMI
+        | write_decl SEMI
+        ;
+
+  if_decl  : IF LPAREN bool RPAREN stmts END
+           | IF LPAREN bool RPAREN stmts ELSE stmts END
+           ;
+
+  while_decl : WHILE LPAREN bool RPAREN stmts END
+             ;
+
+  attrib_decl : ID ATTR expr
+              ;
+
+  read_decl : READ ID
+            ;
+
+  write_decl : WRITE ID
+             ;
+
+  expr : expr PLUS expr
+       | expr MINUS expr
+       | expr TIMES expr
+       | expr OVER expr
+       | factor
+       | bool
+       ;
+  bool : expr OR expr
+       | expr AND expr
+       | expr EQ expr
+       | expr NEQ expr
+       | expr GT expr
+       | expr LT expr
+       | expr GE expr
+       | expr LE expr
+       | expr
+       ;
+
+  factor : LPAREN expr RPAREN
+         | ID
+         | NUM
+         ;
+\end{lstlisting}
+
+Como podemos perceber um programa é um conjunto de instruções delimitados por
+ponto-e-vírgula. A linguagem disponibiliza uma instrução para execução
+condicional e uma outra para laços de repetição. ambas tomam como parâmetro
+uma expressão que possa ser avalidada como um inteiro. Como ocorre na
+\emph{Linguagem C} uma expressão cujo valor seja avaliado como 0 (zero) é
+considerada \emph{falsa} e qualquer outro valor é avaliado como
+\emph{verdadeiro}.
+
+Adicionalmete as instruções de laço e condicionais, a linguagem propicia uma
+instrução para o armazenamento da avaliação de uma expressão (atribuição de
+variável) e duas instruções de Entrada e Saída. A intrução de entrada-padrão
+(\emph{leia}) lê um inteiro do teclado e a instrução de saída (\emph{escreva})
+escreve o valor atribuido a uma variável na saída-padrão (possivelmente um
+terminal).
+
+As operações relacionais (booleanas) possuem prioridades conforme a Tabela
+\ref{tab:prioridades}, sendo que as operações que aparecem primeiro, na
+tabela, possuem maior prioridade. As operações matemáticas possuem a
+precedência usual.
+
+\begin{table}
+	\begin{center}
+		\begin{tabular}{c l}
+			< <= > >= & Menor, Menor ou igual, Maior, Maior ou igual \\
+			= !=      & Igualdade,  Desigualdade \\
+		\end{tabular}
+	\end{center}
+	\caption{Prioridades dos Operadores Relacionais}
+	\label{tab:prioridades}
+\end{table}
+
+A gramática da listagem \ref{lst:grammar} é ambígua, todavia as ambiguidades
+são resolvida pelas prioridades já discutidas, durante o process de análise
+sintática.
+
