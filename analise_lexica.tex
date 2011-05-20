@@ -95,4 +95,20 @@ Para simplificar a notação das expressões regulares é comum associar nomes �
 expressões regulares longas. Uma Expressão Regular nomeada é chamadas de
 \textbf{definição regular}.
 
+Além das operações descritas, a norma \citeonline{POSIX.1} define operações
+adicionais chamadas Expressões Regulares Extendidas:
 
+\begin{description}
+	\item[Uma ou Mais Repetições] A repetição de de uma ou mais vezes da
+		expressão regular $r$ é dada por $r+$, eliminando o casamento da expressão
+		vazia (\(\epsilon\)). O mesmo resultado poderia ser obtido com a expressão
+		$rr*$, mas esta é uma situação tão frequente que foi simplificada e
+		padronizada \cite{louden97-pt}.
+	\item[Qualquer Caractere] Um ``.'' (ponto) é utilisado para efetuar o
+		casamento com qualquer caractere, exceto um caractere nulo.
+\end{description}
+
+Há outras operações que envolvem expressões regulares. Para mais informações
+colsulte \cite{regex-jargas}, \cite{POSIX.1} e \cite{louden97-pt}.
+
+\subsubsection{Autômatos Finitos}
