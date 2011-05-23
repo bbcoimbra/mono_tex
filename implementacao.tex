@@ -94,3 +94,20 @@ A gramática da listagem \ref{lst:grammar} é ambígua, todavia as ambiguidades
 são resolvida pelas prioridades já discutidas, durante o process de análise
 sintática.
 
+\subsection{Análise Sintática}
+O Analisador Sintático foi produzido utilizado o código gerado pela ferramenta
+\emph{GNU/Bison} \cite{bison}. \emph{Bison} é um gerador de analisadores
+sintáticos ascendentes que recebe um arquivo de especificações da gramática a
+ser reconhecida (descrito numa gramática livre de contexto \cite{bison}) e
+produz código C para cada regra sintática reconhecida.
+
+O arquivo da especificação está listado no Apêndice na Listagem
+\ref{parser.y}. Primeiramente, é listado o código que será incluido
+diretamente no arquivo gerado. Logo depois, é declarada a união que armazenará
+os tipos dos nós da Árvore Sintática gerada e dos tokens recebidos pelo
+Analisador Léxico.
+
+A declaração dos nomes dos tokens, e seus respectivos tipos, quando aplicável,
+é listada em seguida
+
+
