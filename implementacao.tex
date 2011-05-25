@@ -1,4 +1,5 @@
 \section{Implementação}
+\label{sec:implementacao}
 
 Para a implementação desse trabalho, foi definida a gramática exibida na
 listagem \ref{lst:grammar}. Ela gera uma linguagem simples que opera sobre
@@ -94,20 +95,100 @@ A gramática da listagem \ref{lst:grammar} é ambígua, todavia as ambiguidades
 são resolvida pelas prioridades já discutidas, durante o process de análise
 sintática.
 
+Para a implementação do compilador foi escolhida a \emph{linguagem C}. A
+escolha foi baseada na familiaridade do autor com a linguagem, além da farta
+disponibilidade de ferramentas e literatura sobre a referida linguagem. Mais
+informações podem ser obtidas em \citeonline{c-book}, \citeonline{KeR} e
+\citeonline{schildt}
+
+\subsection{Estruturas de Dados}
+As principais \emph{Estruturas de Dados} estão definidas na Listagem
+\ref{global.h} (global.h). São definidos três enumeradores que serão
+utilizados para diferenciar os nós da Árvore Sintática: \emph{node\_kind},
+\emph{stmt\_kind} e \emph{expr\_kind}.
+
+Os \emph{tokens} para constantes numéricas e identificadores são armazenados
+numa estrutura chamada \emph{token\_t}. A estrutura mantém a linha em que o token
+foi encontrado e uma união que armazena um inteiro (constante numérica), ou um
+ponteiro para uma cadeia de caracteres (identificadores). Para os demais
+casos, apenas o tipo do token é retornado pelo analisador léxico.
+
+A Árvore Sintática é produzida por nós da estrutura do tipo \emph{node\_t}. A
+sequência de instruções é representada por uma lista ligada utilizando o
+apontador \emph{next}. As instruções aninhadas (repetições e condicionais) são
+representadas como nós filhos. Para os nós que representam expressões o
+atributo da expressão é armazenado numa união conforme o tipo da expressão
+(operação aritmética, um identificador, ou uma constante numérica).
+
+\subsection{O Programa Principal}
+O programa principal, \emph{compiler.c}, é bastante simples e está disponível
+no Apendice na Listagem \ref{compiler.c}.
+
+Primeiramente são configuradas as variáves de chaveamento, com base nas opções
+passadas na linha de comando. Para isso são feitas sucessivas chamadas a
+função \emph{getopt()}, presente na biblioteca-padrão da linguagem C.
+
+São configuradas as variáveis que armazenam as referências para o arquivo de
+entrada (que será utilizada pelo Analisador Léxico) e para a Tabela de
+Símbolos (utilizada no Analisador Sintático). Em seguida, é chamada a função
+que ativa o Analisador Sintático (\emph{yyparse()}).
+
+Ativações adicionais como imprimir árvore sintática e tabela de símbolos,
+gerar código C (Seção \ref{sec:gen_c}) e DOT (\ref{sec:gen_dot}), são feitas
+conforme as opções passadas na linha de comando.
+
+
 \subsection{Análise Sintática}
 O Analisador Sintático foi produzido utilizado o código gerado pela ferramenta
-\emph{GNU/Bison} \cite{bison}. \emph{Bison} é um gerador de analisadores
-sintáticos ascendentes que recebe um arquivo de especificações da gramática a
-ser reconhecida (descrito numa gramática livre de contexto \cite{bison}) e
-produz código C para cada regra sintática reconhecida.
+\emph{GNU/Bison} \cite{bison}. \emph{Bison} é uma implementação do \emph{YACC}
+(Yet Another Compiler Compiler {--} Um Outro Compilador de Compiladores), um
+gerador de analisadores sintáticos ascendentes que recebe um arquivo de
+especificações da gramática a ser reconhecida (descrito numa gramática livre
+de contexto) e produz código C para cada regra sintática reconhecida.
 
 O arquivo da especificação está listado no Apêndice na Listagem
-\ref{parser.y}. Primeiramente, é listado o código que será incluido
-diretamente no arquivo gerado. Logo depois, é declarada a união que armazenará
-os tipos dos nós da Árvore Sintática gerada e dos tokens recebidos pelo
-Analisador Léxico.
+\ref{parser.y}, arquivo parser.y. A especicação é dividida em 3 partes,
+separadas pelos caracteres \emph{\%\%}. Na primeira, são incluidas o preâmbulo
+e as declarações de configuração do \emph{Bison}. Na segunda, estão as regras
+gramaticais e suas respectivas regras semânticas. Na terceira, inclui-se
+quaisquer funções auxiliares que forem necessárias.
 
-A declaração dos nomes dos tokens, e seus respectivos tipos, quando aplicável,
-é listada em seguida
+Na seção inicial da especificação, o código incluido entre \emph{\%\{} e
+\emph{\%\}} será incluido diretamente no arquivo gerado, em seguida é
+definido, como uma união, o tipo de dados retornado pelo analisador gerado,
+bem como a declaração dos tokens (que nesse contexto também são os símbolos
+terminais da gramática) e as precedências das operações ambíguas.
+
+As regras gramaticais, na segunda seção do arquivo de especificação, são
+idênticas aquelas listadas no início deste capítulo (Seção
+\ref{sec:implementacao}), acrescidas das ações semânticas equivalentes. O
+exemplo da gramática para a instrução de escrita de um inteiro encontra-se
+na Listagem \ref{lst:grammar_example}. Este trecho de código indica que o
+Analisador Sintático deve receber um token \textbf{WRITE} seguido de um token
+\textbf{ID} do Analisador Léxico. Quando isso ocorrer é criado um novo nó de
+\emph{instrução} do tipo \emph{escrita}, que será armazenado na
+pseudo-variável \textbf{\$\$} para ser retornado e incluido na Árvore
+Sintática. Também são armazenados no nó o nome do Identificador (variável) que
+deverá ser escrita e a sua localização no arquivo-fonte.
+
+\begin{lstlisting}[label=lst:grammar_example,caption=Exemplo da Gramática com
+Regras Semânticas]
+write_decl : WRITE ID
+           {
+            $$ = new_stmt_node(write_k);
+            $$->child[0] = new_expr_node(id_k);
+            $$->child[0]->attr.name = copy_str ((yylval.token)->value.name);
+            $$->lineno = yylval.token->lineno;
+           }
+           ;
+\end{lstlisting}
+
+As demais regras são bastantes parecidas com aquela demonstrada na Listagem
+\ref{lst:grammar_example}, 
 
 
+\subsection{Geração Código C}
+\label{sec:gen_c}
+
+\subsection{Geração Código DOT}
+\label{sec:gen_dot}
