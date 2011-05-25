@@ -3,8 +3,10 @@
 
 Para a implementação desse trabalho, foi definida a gramática exibida na
 listagem \ref{lst:grammar}. Ela gera uma linguagem simples que opera sobre
-inteiros, mas suficientemente completa para atingir os objetivos deste
-trabalho.
+inteiros, não há ativação de funções e apenas um escopo (global).
+Embora simples, a linguagem é suficientemente completa para atingir os
+objetivos deste trabalho.
+
 \begin{lstlisting}[label=lst:grammar,caption=Gramática reconhecida]
   program : stmts
           ;
@@ -62,7 +64,7 @@ trabalho.
 
 Como podemos perceber um programa é um conjunto de instruções delimitados por
 ponto-e-vírgula. A linguagem disponibiliza uma instrução para execução
-condicional e uma outra para laços de repetição. ambas tomam como parâmetro
+condicional e uma outra para laços de repetição. Ambas tomam como parâmetro
 uma expressão que possa ser avalidada como um inteiro. Como ocorre na
 \emph{Linguagem C} uma expressão cujo valor seja avaliado como 0 (zero) é
 considerada \emph{falsa} e qualquer outro valor é avaliado como
@@ -105,7 +107,17 @@ informações podem ser obtidas em \citeonline{c-book}, \citeonline{KeR} e
 As principais \emph{Estruturas de Dados} estão definidas na Listagem
 \ref{global.h} (global.h). São definidos três enumeradores que serão
 utilizados para diferenciar os nós da Árvore Sintática: \emph{node\_kind},
-\emph{stmt\_kind} e \emph{expr\_kind}.
+\emph{stmt\_kind} e \emph{expr\_kind}. O enumerador \emph{node\_kind}
+especifica se determinado nó é uma \textbf{instrução} ou \textbf{expressão}.
+Caso seja uma \textbf{instrução}, verificamos seu tipo no enumerador
+\emph{stmt\_kind} que possui como valores possíveis: \emph{if\_k},
+\emph{while\_k}, \emph{attrib\_k}, \emph{write\_k}, \emph{read\_k}, para as
+instruções de escolha condicional, laço de repetição, atribuição de variável,
+escrita e leitura, respectivamente. Caso seja o nó seja uma
+\textbf{expressão}, verificamos o enumerador \emph{expr\_kind}, que nos
+possibilita os valores seguintes: \emph{op\_k}, \emph{id\_k} e
+\emph{const\_k}, para indicar expressões aritméticas e booleanas, a presença
+de um identificador ou uma constante númérica, respectivamente.
 
 Os \emph{tokens} para constantes numéricas e identificadores são armazenados
 numa estrutura chamada \emph{token\_t}. A estrutura mantém a linha em que o token
@@ -255,15 +267,45 @@ deverão ser executados quanto uma determinada cadeia de caracteres do
 programa-fonte casar com uma das Expressões Regulares.
 
 As possíveis ambiguidades nas regras de casamento são resolvidas com o
-casamento da subcadeia mais longa. Caso seja encontrado algum caractere não
-permitido no programa-fonte uma mensagem de erro é emitida.
+casamento da subcadeia mais longa. Na persistencia da ambiguidade, a regra que
+foi definida primeiro ganha precedência. Caso seja encontrado algum caractere
+não permitido no programa-fonte uma mensagem de erro é emitida.
 
 A seção de funções auxiliares é opcional e não foi necessária nesta
 implementação.
 
-\subsection{Geração Código C}
+
+\subsection{Tabela de Símbolos}
+\label{sec:symtab}
+
+Dada a simplicidade da gramática proposta (haver apenas um escopo global,
+\dots), a tabela de símbolos é necessária apenas para manter os nomes e
+localização, no programa-fonte, das variáveis declaradas. Não houve a
+necessidade de manter os tipos das variáveis, pois por definição, haverá
+apenas operações sobre números inteiros.
+
+Sua implementação foi feita baseada numa \emph{Tabela de Hashs de
+endereçamento aberto} e a listagem está disponível no Apêncice
+\ref{apx:listings} Listagens \ref{symtab.h} e \ref{symtab.c}. Para
+mais informações, consulte a Seção \ref{sec:hashtable}.
+
+As variáveis são incluidas na tabela, pelo analisador sintático, durante o
+reconhecimento de uma instrução de leitura ou atribuição, na primeira vez em
+que ela é reconhecida.
+
+A inclusão é efetuda calculando-se \emph{hash} do nome da variável e mapeando
+o valor do hash para um endereço na tabela de símbolos (que, também, é uma
+tabela de hashes). Caso o endereço esteja disponível, uma entrada é criada
+neste endereço. Caso o endereço já esteja ocupado, o conflito é resolvido com
+a criação de uma lista ligada, incluindo a nova entrada no final da lista.
+
+\subsection{Geração Código Intermediário}
+\label{sec:gencode}
+
+
+\subsubsection{Geração Código C}
 \label{sec:gen_c}
 
-\subsection{Geração Código DOT}
+\subsubsection{Geração Código DOT}
 \label{sec:gen_dot}
 
