@@ -122,7 +122,7 @@ atributo da expressão é armazenado numa união conforme o tipo da expressão
 
 \subsection{O Programa Principal}
 O programa principal, \emph{compiler.c}, é bastante simples e está disponível
-no Apendice na Listagem \ref{compiler.c}.
+no Apendice \ref{apx:listings} na Listagem \ref{compiler.c}.
 
 Primeiramente são configuradas as variáves de chaveamento, com base nas opções
 passadas na linha de comando. Para isso são feitas sucessivas chamadas a
@@ -146,7 +146,7 @@ gerador de analisadores sintáticos ascendentes que recebe um arquivo de
 especificações da gramática a ser reconhecida (descrito numa gramática livre
 de contexto) e produz código C para cada regra sintática reconhecida.
 
-O arquivo da especificação está listado no Apêndice na Listagem
+O arquivo da especificação está listado no Apêndice \ref{apx:listings} na Listagem
 \ref{parser.y}, arquivo parser.y. A especicação é dividida em 3 partes,
 separadas pelos caracteres \emph{\%\%}. Na primeira, são incluidas o preâmbulo
 e as declarações de configuração do \emph{Bison}. Na segunda, estão as regras
@@ -163,7 +163,7 @@ As regras gramaticais, na segunda seção do arquivo de especificação, são
 idênticas aquelas listadas no início deste capítulo (Seção
 \ref{sec:implementacao}), acrescidas das ações semânticas equivalentes. O
 exemplo da gramática para a instrução de escrita de um inteiro encontra-se
-na Listagem \ref{lst:grammar_example}. Este trecho de código indica que o
+na Listagem \ref{lst:grammar_write_decl}. Este trecho de código indica que o
 Analisador Sintático deve receber um token \textbf{WRITE} seguido de um token
 \textbf{ID} do Analisador Léxico. Quando isso ocorrer é criado um novo nó de
 \emph{instrução} do tipo \emph{escrita}, que será armazenado na
@@ -171,8 +171,7 @@ pseudo-variável \textbf{\$\$} para ser retornado e incluido na Árvore
 Sintática. Também são armazenados no nó o nome do Identificador (variável) que
 deverá ser escrita e a sua localização no arquivo-fonte.
 
-\begin{lstlisting}[label=lst:grammar_example,caption=Exemplo da Gramática com
-Regras Semânticas]
+\begin{lstlisting}[label=lst:grammar_write_decl,caption=Instrução de Escrita]
 write_decl : WRITE ID
            {
             $$ = new_stmt_node(write_k);
@@ -184,11 +183,87 @@ write_decl : WRITE ID
 \end{lstlisting}
 
 As demais regras são bastantes parecidas com aquela demonstrada na Listagem
-\ref{lst:grammar_example}, 
+\ref{lst:grammar_write_decl}, exceto pela regra que define a atribuição de uma
+variável. Para as atribuições (verificar Listagem \ref{lst:grammar_attr_decl})
+é necessário declarar uma regra implícita para armazenarmos os valores do token
+\textbf{ID} antes de construirmos o nó correspondente. Isso é necessário, pois
+o Analisador Sintático só sabe que se trata de uma instrução de atribuição
+depois de reconhecer o não-terminal \emph{expr}. Quando \emph{expr} é
+reconhecido as referências para o token \textbf{ID} já foram perdidas. Outro
+detalhe que chama a atenção na Listagem \ref{lst:grammar_attr_decl} é a
+presença da pseudo-variável \textbf{\$4}. O Bison nomeia cada terminal e
+não-terminal de uma produção com o caractere \$ seguido com um número $n$ em
+que $n$ é o índice do terminal ou não-terminal da produção, iniciado em 1. No
+caso da Listagem \ref{lst:grammar_attr_decl} temos 3 terminais e
+não-terminais, sendo \emph{expr} o terceiro, dessa forma o índice de valor 4
+aparece devida a instrução implicita para armazenar, temporariamente, as
+referências para o token \textbf{ID}.
 
+\begin{lstlisting}[label=lst:grammar_attr_decl,caption=Instrução de Atribuição]
+attrib_decl : ID
+            {
+              saved_name = copy_str ((yylval.token)->value.name);
+              lineno = yylval.token->lineno;
+            }
+            ATTR expr
+            {
+              $$ = new_stmt_node(attrib_k);
+              $$->child[0] = $4;
+              $$->attr.name = saved_name;
+              $$->lineno = lineno;
+              symtab_insert(stab, saved_name);
+            }
+            ;
+\end{lstlisting}
+
+Mais referências sobre o \emph{YACC} e \emph{Bison} podem ser encontradas em
+\citeonline{yacc}, \citeonline{oreilly-yacc}, \citeonline{oreilly-bison}
+
+\subsection{Análise Léxica}
+O Analisador Léxico foi implementado com o auxílio da ferramenta Flex. Segudo
+o site do projeto \cite{flex-project}:
+
+\begin{citacao}{4cm}{0cm}\footnotesize \emph
+  Flex is a tool for generating scanners. A scanner, sometimes called a
+  tokenizer, is a program which recognizes lexical patterns in text. The flex
+  program reads user-specified input files, or its standard input if no file
+  names are given, for a description of a scanner to generate. The description
+  is in the form of pairs of regular expressions and C code, called rules. Flex
+  generates a C source file named, "lex.yy.c", which defines the function
+  yylex(). The file "lex.yy.c" can be compiled and linked to produce an
+  executable. When the executable is run, it analyzes its input for occurrences
+  of text matching the regular expressions for each rule. Whenever it finds a
+  match, it executes the corresponding C code.
+\end{citacao}
+
+A especificação Flex para o Analisador Léxico encontra-se no Apêndice
+\ref{apx:listings} Listagem \ref{scanner.l}. O arquivo, assim como a
+especificação do Analisador Sintático, é dividido em três seções separadas
+por um par de caracteres \emph{\%\%}: definições, regras de reconhecimento e
+funções auxiliares.
+
+Na primeira seção do arquivo, o segmento de código C delimitado por
+\emph{\%\{} e \emph{\%\}} é copiado diretamente para o arquivo gerado. Ainda
+nesta seção, são definidas as opções para a execução do Flex, bem como as
+definições regulares que serão utilizadas nas regras de reconhecimento dos
+tokens.
+
+As regras de reconhecimento, na segunda seção do arquivo, são pares Expressões
+Regulares-Blocos de Código. As Expressões Regulares são instruções de
+casamento para os tokens, enquanto os Blocos de Código são os trechos que
+deverão ser executados quanto uma determinada cadeia de caracteres do
+programa-fonte casar com uma das Expressões Regulares.
+
+As possíveis ambiguidades nas regras de casamento são resolvidas com o
+casamento da subcadeia mais longa. Caso seja encontrado algum caractere não
+permitido no programa-fonte uma mensagem de erro é emitida.
+
+A seção de funções auxiliares é opcional e não foi necessária nesta
+implementação.
 
 \subsection{Geração Código C}
 \label{sec:gen_c}
 
 \subsection{Geração Código DOT}
 \label{sec:gen_dot}
+
