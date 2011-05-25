@@ -299,8 +299,17 @@ tabela de hashes). Caso o endereço esteja disponível, uma entrada é criada
 neste endereço. Caso o endereço já esteja ocupado, o conflito é resolvido com
 a criação de uma lista ligada, incluindo a nova entrada no final da lista.
 
-\subsection{Geração Código Intermediário}
+\subsection{Geração Código}
 \label{sec:gencode}
+
+A fase final no processo de compilação para nossa implementação é a Geração de
+Código. Para este projeto, foram escolhidas duas representações como produto
+do processo de compilação, uma representação em Linguagem C e outra em
+Linguagem DOT. Os detalhes de implementação são discutidos nas Seções
+\ref{sec:gen_c} e \ref{sec:gen_dot}, respectivamente. Os códigos-fonte
+referentes a gereção de código C estão listados nas Listagens \ref{cgen.c}
+e \ref{cgen.c}, os referentes a geração de código DOT, nas Listagens
+\ref{dotgen.h} e \ref{dotgen.c}, ambas no Apêndice \ref{apx:listings}.
 
 
 \subsubsection{Geração Código C}
