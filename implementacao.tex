@@ -94,7 +94,7 @@ precedência usual.
 \end{table}
 
 A gramática da listagem \ref{lst:grammar} é ambígua, todavia as ambiguidades
-são resolvida pelas prioridades já discutidas, durante o process de análise
+são resolvida pelas prioridades já discutidas, durante o processo de análise
 sintática.
 
 Para a implementação do compilador foi escolhida a \emph{linguagem C}. A
@@ -117,7 +117,7 @@ escrita e leitura, respectivamente. Caso seja o nó seja uma
 \textbf{expressão}, verificamos o enumerador \emph{expr\_kind}, que nos
 possibilita os valores seguintes: \emph{op\_k}, \emph{id\_k} e
 \emph{const\_k}, para indicar expressões aritméticas e booleanas, a presença
-de um identificador ou uma constante númérica, respectivamente.
+de um identificador ou uma constante numérica, respectivamente.
 
 Os \emph{tokens} para constantes numéricas e identificadores são armazenados
 numa estrutura chamada \emph{token\_t}. A estrutura mantém a linha em que o token
@@ -134,7 +134,7 @@ atributo da expressão é armazenado numa união conforme o tipo da expressão
 
 \subsection{O Programa Principal}
 O programa principal, \emph{compiler.c}, é bastante simples e está disponível
-no Apendice \ref{apx:listings} na Listagem \ref{compiler.c}.
+no Apêndice \ref{apx:listings} na Listagem \ref{compiler.c}.
 
 Primeiramente são configuradas as variáves de chaveamento, com base nas opções
 passadas na linha de comando. Para isso são feitas sucessivas chamadas a
@@ -159,13 +159,13 @@ especificações da gramática a ser reconhecida (descrito numa gramática livre
 de contexto) e produz código C para cada regra sintática reconhecida.
 
 O arquivo da especificação está listado no Apêndice \ref{apx:listings} na Listagem
-\ref{parser.y}, arquivo parser.y. A especicação é dividida em 3 partes,
+\ref{parser.y}, arquivo parser.y. A espeficação é dividida em 3 partes,
 separadas pelos caracteres \emph{\%\%}. Na primeira, são incluidas o preâmbulo
 e as declarações de configuração do \emph{Bison}. Na segunda, estão as regras
 gramaticais e suas respectivas regras semânticas. Na terceira, inclui-se
 quaisquer funções auxiliares que forem necessárias.
 
-Na seção inicial da especificação, o código incluido entre \emph{\%\{} e
+Na seção inicial da especificação, o código listado entre \emph{\%\{} e
 \emph{\%\}} será incluido diretamente no arquivo gerado, em seguida é
 definido, como uma união, o tipo de dados retornado pelo analisador gerado,
 bem como a declaração dos tokens (que nesse contexto também são os símbolos
@@ -208,7 +208,7 @@ não-terminal de uma produção com o caractere \$ seguido com um número $n$ em
 que $n$ é o índice do terminal ou não-terminal da produção, iniciado em 1. No
 caso da Listagem \ref{lst:grammar_attr_decl} temos 3 terminais e
 não-terminais, sendo \emph{expr} o terceiro, dessa forma o índice de valor 4
-aparece devida a instrução implicita para armazenar, temporariamente, as
+aparece devido a instrução implícita para armazenar, temporariamente, as
 referências para o token \textbf{ID}.
 
 \begin{lstlisting}[label=lst:grammar_attr_decl,caption=Instrução de Atribuição]
