@@ -70,11 +70,11 @@ uma expressão que possa ser avalidada como um inteiro. Como ocorre na
 considerada \emph{falsa} e qualquer outro valor é avaliado como
 \emph{verdadeiro}.
 
-Adicionalmete as instruções de laço e condicionais, a linguagem propicia uma
+Adicionalmente as instruções de laço e condicionais, a linguagem propicia uma
 instrução para o armazenamento da avaliação de uma expressão (atribuição de
-variável) e duas instruções de Entrada e Saída. A intrução de entrada-padrão
+variável) e duas instruções de Entrada e Saída. A instrução de entrada-padrão
 (\emph{leia}) lê um inteiro do teclado e a instrução de saída (\emph{escreva})
-escreve o valor atribuido a uma variável na saída-padrão (possivelmente um
+escreve o valor atribuído a uma variável na saída-padrão (possivelmente um
 terminal).
 
 As operações relacionais (booleanas) possuem prioridades conforme a Tabela
@@ -136,7 +136,7 @@ atributo da expressão é armazenado numa união conforme o tipo da expressão
 O programa principal, \emph{compiler.c}, é bastante simples e está disponível
 no Apêndice \ref{apx:listings} na Listagem \ref{compiler.c}.
 
-Primeiramente são configuradas as variáves de chaveamento, com base nas opções
+Primeiramente são configuradas as variáveis de chaveamento, com base nas opções
 passadas na linha de comando. Para isso são feitas sucessivas chamadas a
 função \emph{getopt()}, presente na biblioteca-padrão da linguagem C.
 
@@ -159,14 +159,14 @@ especificações da gramática a ser reconhecida (descrito numa gramática livre
 de contexto) e produz código C para cada regra sintática reconhecida.
 
 O arquivo da especificação está listado no Apêndice \ref{apx:listings} na Listagem
-\ref{parser.y}, arquivo parser.y. A espeficação é dividida em 3 partes,
-separadas pelos caracteres \emph{\%\%}. Na primeira, são incluidas o preâmbulo
+\ref{parser.y}, arquivo parser.y. A especificação é dividida em 3 partes,
+separadas pelos caracteres \emph{\%\%}. Na primeira, são incluídas o preâmbulo
 e as declarações de configuração do \emph{Bison}. Na segunda, estão as regras
 gramaticais e suas respectivas regras semânticas. Na terceira, inclui-se
 quaisquer funções auxiliares que forem necessárias.
 
 Na seção inicial da especificação, o código listado entre \emph{\%\{} e
-\emph{\%\}} será incluido diretamente no arquivo gerado, em seguida é
+\emph{\%\}} será incluído diretamente no arquivo gerado, em seguida é
 definido, como uma união, o tipo de dados retornado pelo analisador gerado,
 bem como a declaração dos tokens (que nesse contexto também são os símbolos
 terminais da gramática) e as precedências das operações ambíguas.
@@ -179,7 +179,7 @@ na Listagem \ref{lst:grammar_write_decl}. Este trecho de código indica que o
 Analisador Sintático deve receber um token \textbf{WRITE} seguido de um token
 \textbf{ID} do Analisador Léxico. Quando isso ocorrer é criado um novo nó de
 \emph{instrução} do tipo \emph{escrita}, que será armazenado na
-pseudo-variável \textbf{\$\$} para ser retornado e incluido na Árvore
+pseudo-variável \textbf{\$\$} para ser retornado e incluído na Árvore
 Sintática. Também são armazenados no nó o nome do Identificador (variável) que
 deverá ser escrita e a sua localização no arquivo-fonte.
 
@@ -232,7 +232,7 @@ Mais referências sobre o \emph{YACC} e \emph{Bison} podem ser encontradas em
 \citeonline{yacc}, \citeonline{oreilly-yacc}, \citeonline{oreilly-bison}
 
 \subsection{Análise Léxica}
-O Analisador Léxico foi implementado com o auxílio da ferramenta Flex. Segudo
+O Analisador Léxico foi implementado com o auxílio da ferramenta Flex. Segundo
 o site do projeto \cite{flex-project}:
 
 \begin{citacao}{4cm}{0cm}\footnotesize \emph
@@ -267,7 +267,7 @@ deverão ser executados quanto uma determinada cadeia de caracteres do
 programa-fonte casar com uma das Expressões Regulares.
 
 As possíveis ambiguidades nas regras de casamento são resolvidas com o
-casamento da subcadeia mais longa. Na persistencia da ambiguidade, a regra que
+casamento da cadeira mais longa. Na persistência da ambiguidade, a regra que
 foi definida primeiro ganha precedência. Caso seja encontrado algum caractere
 não permitido no programa-fonte uma mensagem de erro é emitida.
 
@@ -285,15 +285,15 @@ necessidade de manter os tipos das variáveis, pois por definição, haverá
 apenas operações sobre números inteiros.
 
 Sua implementação foi feita baseada numa \emph{Tabela de Hashs de
-endereçamento aberto} e a listagem está disponível no Apêncice
+endereçamento aberto} e a listagem está disponível no Apêndice
 \ref{apx:listings} Listagens \ref{symtab.h} e \ref{symtab.c}. Para
 mais informações, consulte a Seção \ref{sec:hashtable}.
 
-As variáveis são incluidas na tabela, pelo analisador sintático, durante o
+As variáveis são incluídas na tabela, pelo analisador sintático, durante o
 reconhecimento de uma instrução de leitura ou atribuição, na primeira vez em
 que ela é reconhecida.
 
-A inclusão é efetuda calculando-se \emph{hash} do nome da variável e mapeando
+A inclusão é efetuada calculando-se \emph{hash} do nome da variável e mapeando
 o valor do hash para um endereço na tabela de símbolos (que, também, é uma
 tabela de hashes). Caso o endereço esteja disponível, uma entrada é criada
 neste endereço. Caso o endereço já esteja ocupado, o conflito é resolvido com
@@ -307,7 +307,7 @@ Código. Para este projeto, foram escolhidas duas representações como produto
 do processo de compilação, uma representação em Linguagem C e outra em
 Linguagem DOT. Os detalhes de implementação são discutidos nas Seções
 \ref{sec:gen_c} e \ref{sec:gen_dot}, respectivamente. Os códigos-fonte
-referentes a gereção de código C estão listados nas Listagens \ref{cgen.c}
+referentes a geração de código C estão listados nas Listagens \ref{cgen.c}
 e \ref{cgen.c}, os referentes a geração de código DOT, nas Listagens
 \ref{dotgen.h} e \ref{dotgen.c}, ambas no Apêndice \ref{apx:listings}.
 
@@ -315,7 +315,7 @@ e \ref{cgen.c}, os referentes a geração de código DOT, nas Listagens
 \subsubsection{Geração Código C}
 \label{sec:gen_c}
 O programa-objeto em Linguagem C é gerado pela função \emph{generate\_c()}
-ativada pelo programa principal (Apêncice \ref{apx:listings} Listagem
+ativada pelo programa principal (Apêndice \ref{apx:listings} Listagem
 \ref{compiler.c}). São requeridos pela função três parâmetros: o arquivo em
 que o programa-objeto será escrito, o ponteiro para a Árvore Sintática e o
 ponteiro para a Tabela de Símbolos.
@@ -366,7 +366,7 @@ Para isso, as chamadas de função que geram código DOT possuem um parâmetro
 adicional que armazena esse nó de contexto.
 
 A função \emph{generate\_dot()} é ativada pelo programa principal
-(Apêncice \ref{apx:listings} Listagem \ref{compiler.c}) tendo como parâmetros
+(Apêndice \ref{apx:listings} Listagem \ref{compiler.c}) tendo como parâmetros
 apenas o ponteiro para o arquivo que armazenará o programa-objeto e o ponteiro
 para a Árvore Sintática. A Tabela de Símbolos não é necessária, pois não há a
 necessidade de declaração prévia das variáveis utilizadas.
@@ -378,10 +378,10 @@ As duas funções principais para a geração do arquivo DOT são
 
 A função \emph{dot\_gen\_shapes()} verifica cada nó da Árvore Sintática e
 escreve no programa-objeto qual a forma que um nó deve assumir. Para esta
-implementação, apenas os nós de intrução condicional e laço de repetição
-possuem forma de losângulo, as demais instruções possuem o formato padrão de
+implementação, apenas os nós de instrução condicional e laço de repetição
+possuem forma de losangolo, as demais instruções possuem o formato padrão de
 retângulo.
 
-Para mais informções sobre a linguagem DOT, consulte a página, na internet, do
+Para mais informações sobre a linguagem DOT, consulte a página, na internet, do
 projeto \citeonline{graphviz}.
 
