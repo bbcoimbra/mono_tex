@@ -314,7 +314,74 @@ e \ref{cgen.c}, os referentes a geração de código DOT, nas Listagens
 
 \subsubsection{Geração Código C}
 \label{sec:gen_c}
+O programa-objeto em Linguagem C é gerado pela função \emph{generate\_c()}
+ativada pelo programa principal (Apêncice \ref{apx:listings} Listagem
+\ref{compiler.c}). São requeridos pela função três parâmetros: o arquivo em
+que o programa-objeto será escrito, o ponteiro para a Árvore Sintática e o
+ponteiro para a Tabela de Símbolos.
+
+A função, primeiramente, inclui no arquivo de saída os headers necessários e
+o início da declaração do corpo da função \emph{main()}. Neste momento, faz-se
+uso da Tabela de Símbolos. Em C, as variáveis precisam ser declaradas antes de
+serem utilizadas, então a função \emph{declare\_variables()} é ativada. Esta
+função varre a Tabela de Símbolos e inclui a declaração de todas as variáveis
+necessárias no arquivo de saída.
+
+Em seguida, a função \emph{gen\_c()} é ativada. Esta é a função mais
+importante desta fase da compilação. Esta função, com base no tipo de nó
+recebido como parâmetro, faz chamadas para as funções correspondentes que
+``emitem'' as instruções necessárias para o arquivo de saída.
+
+As demais funções, \emph{emit\_while()} por exemplo (verificar Listagem
+\ref{lst:emit_while}), geram os trechos de código C correspondentes e fazem novas
+chamadas a \emph{gen\_c()} para cada um dos nós filhos.
+
+\begin{lstlisting}[label=lst:emit_while,caption=Função geradora do comando
+while em C]
+void emit_while (FILE * cfile, struct node_t * node)
+{
+	fprintf (cfile, "while (");
+	gen_c (cfile, node->child[0]);
+	fprintf (cfile, ")\n{\n");
+	gen_c (cfile, node->child[1]);
+	fprintf (cfile, "}\n");
+	return;
+}
+\end{lstlisting}
+
+As funções que requerem Entrada e Saída (I/O) são implementadas com chamadas
+as chamadas \emph{scanf()} para Entrada e \emph{printf()} para a saída, ambas
+funções contidas na biblioteca-padrão da linguagem C.
 
 \subsubsection{Geração Código DOT}
 \label{sec:gen_dot}
+
+A implementação para a linguagem DOT é bastante parecida com aquela para a
+Linguagem C, embora seja um pouco mais complexa. É necessário manter uma
+variável de contexto entre as chamadas de função que geram o código DOT.
+Essa variável auxilia na geração apropriada dos nós de retorno de uma
+instrução de repetição e o nó da próxima instrução de uma condicional.
+
+Para isso, as chamadas de função que geram código DOT possuem um parâmetro
+adicional que armazena esse nó de contexto.
+
+A função \emph{generate\_dot()} é ativada pelo programa principal
+(Apêncice \ref{apx:listings} Listagem \ref{compiler.c}) tendo como parâmetros
+apenas o ponteiro para o arquivo que armazenará o programa-objeto e o ponteiro
+para a Árvore Sintática. A Tabela de Símbolos não é necessária, pois não há a
+necessidade de declaração prévia das variáveis utilizadas.
+
+As duas funções principais para a geração do arquivo DOT são
+\emph{dot\_gen\_graph()} e \emph{dot\_gen\_shapes}. A função
+\emph{dot\_gen\_graph()} funciona de forma semelhante a função
+\emph{gen\_c()} discutida na Seção \ref{sec:gen_c}.
+
+A função \emph{dot\_gen\_shapes()} verifica cada nó da Árvore Sintática e
+escreve no programa-objeto qual a forma que um nó deve assumir. Para esta
+implementação, apenas os nós de intrução condicional e laço de repetição
+possuem forma de losângulo, as demais instruções possuem o formato padrão de
+retângulo.
+
+Para mais informções sobre a linguagem DOT, consulte a página, na internet, do
+projeto \citeonline{graphviz}.
 
