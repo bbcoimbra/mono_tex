@@ -1,1 +1,92 @@
-\subsection{Analise Sintática}
+\subsection{Análise Sintática}
+
+A Análise Sintática define a forma com que um programa é estruturado. Essa
+estrutura é dada por um conjunto de \emph{regras gramaticais} descritas em uma
+\emph{Gramática Livre de Contexto},(verificar Seção \ref{sec:context_free_grammar}).
+
+Segundo \citeonline{new-dragon-pt}:
+\begin{citacao}{4cm}{0cm}\footnotesize \emph
+	Existem três estratégias gerais de análise sintática para o processamento
+	de gramáticas: universal, descendente e ascendente. Os métodos de análise
+	baseados na estratégia universal (\dots) podem analisar qualquer
+	gramática, (\dots) no entanto são muito ineficientes para serem utilizados
+	em compiladores de produção.
+
+	Os métodos geralmente usados em compiladores são baseados nas estratégias
+	descendentes ou ascendentes. Conforme sugerido por seus nomes, os métodos
+	de análise descendentes constroem as árvores de derivação de cima (raiz)
+	para baixo (folhas), enquanto os métodos ascendentes fazem a análise no
+	sentido inverso, começam nas folhas e avançam até a raiz construindo a
+	árvore. Em ambas as estratégias, a entrada do analisador sintático é
+	consumida da esquerda para a direita, um símbolo de cada vez.
+\end{citacao}
+
+Para maiores referências sobre analisadores descendentes, consulte
+\citeonline{louden97-pt}, \citeonline{parr07}, \citeonline{jacobs85}.
+
+\subsubsection{Gramáticas Livres de Contexto}
+\label{sec:context_free_grammar}
+
+\emph{Gramática} é essencialmente um conjunto de Regras de Produção (ou
+Re-escrita). Essas regras são, usualmente, descritas utilizando uma notação
+chamada \textbf{Forma de Backus-Naur}, ou \textbf{BNF} \cite{louden97-pt}.
+
+Um exemplo abstrato de regra de produção é demonstrado abaixo:
+
+\[
+A \rightarrow \alpha
+\]
+
+Esta expressão indica que o não-terminal \(A\) será substituído pela sequência
+de terminais e/ou não-terminais representada por \(\alpha\). Um \emph{terminal},
+normalmente, é um \emph{token} oriundo do analisador léxico.
+
+Um exemplo mais concreto é demonstrado abaixo:
+
+\[
+expr \rightarrow expr + expr | \textbf{numero}
+\]
+
+Esta regra indica que uma expressão é composta de uma expressão seguida de um
+sinal de + seguida de outra expressão, ou de um número. O nome da regra é dado
+pela parte que está a esquerda da seta, seu corpo é dado pelo que está a
+direita. O sinal \(|\) indica uma escolha de alternativas no corpo da
+produção. Percebemos, também, que uma regra gramatical pode ter uma
+definição recursiva.
+
+Segundo \citeonline{louden97-pt}, podemos definir uma \textbf{gramática livre de
+contexto} mais formalmente conforme segue:
+\begin{enumerate}
+	\item Um conjunto \(T\) de \textbf{terminais}.
+	\item Um conjunto \(N\) de \textbf{não-terminais} (disjunto de \(T\)).
+	\item Um conjunto \(P\) de \textbf{produções} na forma \(A \rightarrow \alpha\)
+				em que \(A\) é um elemento de \(N\) e \(\alpha\) é um elemento de
+				\((T \cup N)^*\) (uma sequência de terminais e não-terminais que
+				pode ser vazia).
+	\item Um \textbf{símbolo inicial} \(S\) do conjunto \(N\).
+\end{enumerate}
+
+Dessa forma, o processo de reconhecimento da linguagem inicia-se derivando o
+símbolo inicial da gramática, substituindo repetidamente um não-terminal pelo
+corpo desse não terminal \cite{new-dragon-pt}.
+
+Assim, uma \textbf{gramática livre de contexto} é uma \emph{gramática}
+conforme definido a cima, e é livre de contexto pois a parte a esquerda de uma
+regra de produção pode ser substituída pelo seu corpo em qualquer ponto,
+independentemente de onde ocorra a parte esquerda da regra \cite{louden97-pt}.
+
+Em contrapartida, uma produção em uma gramática sensível a contexto é demonstrada
+abaixo:
+\[
+	\gamma{}A\beta \rightarrow \gamma\alpha\beta
+\]
+
+Nesta regra, \(A\) pode ser substituído por \(\alpha\), somente se \(A\) estiver
+entre os terminais \(\gamma\) e \(\beta\).
+
+\subsubsection{Análise Sintática Ascendente}
+\label{sec:asc_syntax_analisys}
+
+
+\subsubsection{Geradores de Analisadores Sintáticos Ascendentes}
+\label{sec:yacc}
