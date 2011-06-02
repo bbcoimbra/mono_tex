@@ -87,7 +87,22 @@ Nesta regra, \(A\) pode ser substituído por \(\alpha\), somente se
 
 \subsubsection{Análise Sintática Ascendente}
 \label{sec:asc_syntax_analisys}
+O processo de análise sintática ascendente foi proposto por Donald E. Knuth
+em 1965. Nesse artigo, ele define a análise sintática $\textbf{LR(k)}$. O
+``L'' indica que a entrada é processada da esquerda para a direita e o ``R''
+indica que uma derivação a esquerda é produzida, e a variável $k$ indica
+o número de símbolos de verificação a frente utilizados pelo analisador.
+Esse tipo de análise também é conhecida como \textbf{carrega-reduz}
+(\emph{shift-reduce}) \cite{louden97-pt}.
+
+Ainda segundo \citeonline{louden97-pt}, essa forma de análise foi considerada
+impraticável até que as técnicas \emph{SLR} e \emph{LALR} foram
+desenvolvidas por DeRemer em 1969. Mais detalhes sobre essas técnicas podem
+ser obtidos em \citeonline{knuth65}, \citeonline{Deremer69},
+\citeonline{new-dragon-pt}.
+
 
 
 \subsubsection{Geradores de Analisadores Sintáticos Ascendentes}
 \label{sec:yacc}
+
