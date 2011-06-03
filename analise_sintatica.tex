@@ -115,6 +115,48 @@ análise sintática e, no geral, possuem duas ações possíveis, além da aceit
 Por causa dessa duas ações possíveis, esse tipo de análisador também é
 conhecido como \textbf{carrega-reduz} (ou \emph{shift-reduce}).
 
+\begin{lstlisting}[label=lst:grammar_example, caption=Gramática Exemplo]
+resultado = exp
+          ;
+
+exp = exp + exp
+    | exp - exp
+    | fator
+    ;
+
+fator = fator * fator
+      | (exp)
+      | numero
+      ;
+\end{lstlisting}
+
+\begin{lstlisting}[label=lst:source_example, caption=Programa Exemplo]
+10 * 20 + 30
+\end{lstlisting}
+
+Dados a gramática exemplo da Listagem \ref{lst:grammar_example} e o programa
+da Listagem \ref{lst:source_example}, e considerando os símbolos $E$, $F$
+e $N$ como os não-terminais \emph{exp}, \emph{fator} e \emph{numero},
+respectivamente, que \emph{numero} representa um número inteiro, teremos os
+seguintes passos executados pelo analisador sintático:
+
+\begin{enumerate}
+  \item Carregar $N$ na pilha.
+  \item Reduzir o topo da pilha para $F$ e empilhar.
+  \item Carregar o token ``*'' na pilha.
+  \item Carregar o token $N$ na pilha.
+  \item Reduzir o topo da pilha para $F$ e empilhar.
+  \item Reduzir $F*F$ para $E$.
+  \item Carregar o token ``+'' na pilha.
+  \item Carregar o token $N$ na pilha.
+  \item Reduzir $N$ para $F$ e empilhar.
+  \item Reduzir $F$ para $E$ e empilhar.
+  \item Reduzir $E+E$ para \emph{resultado}.
+\end{enumerate}
+
+Nesse momento, o analisador sintático retorna informando que o programa está
+correto e que a sequência de tokens foi aceita como válida para a gramática
+definida, ou seja, o analisador ``aceitou'' o programa.
 
 \subsubsection{Geradores de Analisadores Sintáticos Ascendentes}
 \label{sec:yacc}
