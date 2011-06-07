@@ -253,7 +253,7 @@ termo = termo MAIS termo  { $$ = $1 + $3 }
       ;
 
 fator = fator VEZES fator { $$ = $1 * $3 }
-      | PARE termo PARD   { $$ = $1 }
+      | PARE termo PARD   { $$ = $2 }
       | numero            { $$ = yylval.valor }
 			;
 
