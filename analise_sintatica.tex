@@ -116,16 +116,16 @@ Por causa dessa duas ações possíveis, esse tipo de analisador também é
 conhecido como \textbf{carrega-reduz} (ou \emph{shift-reduce}).
 
 \begin{lstlisting}[label=lst:grammar_example, caption=Gramática Exemplo]
-resultado = exp
+expressao = termo
           ;
 
-exp = exp + exp
-    | exp - exp
-    | fator
-    ;
+termo = termo + termo
+      | termo - termo
+      | fator
+      ;
 
 fator = fator * fator
-      | (exp)
+      | (termo)
       | numero
       ;
 \end{lstlisting}
@@ -135,8 +135,8 @@ fator = fator * fator
 \end{lstlisting}
 
 Dados a gramática exemplo da Listagem \ref{lst:grammar_example} e o programa
-da Listagem \ref{lst:source_example}, e considerando os símbolos $E$, $F$
-e $N$ como os não-terminais \emph{exp}, \emph{fator} e \emph{numero},
+da Listagem \ref{lst:source_example}, e considerando os símbolos $T$, $F$
+e $N$ como os não-terminais \emph{termo}, \emph{fator} e \emph{numero},
 respectivamente, que \emph{numero} representa um número inteiro, teremos os
 seguintes passos executados pelo analisador sintático:
 
@@ -146,18 +146,142 @@ seguintes passos executados pelo analisador sintático:
   \item Carregar o token ``*'' na pilha.
   \item Carregar o token $N$ na pilha.
   \item Reduzir o topo da pilha para $F$ e empilhar.
-  \item Reduzir $F*F$ para $E$.
+  \item Reduzir $F*F$ para $F$.
+	\item Reduzir $F$ para $T$
   \item Carregar o token ``+'' na pilha.
   \item Carregar o token $N$ na pilha.
   \item Reduzir $N$ para $F$ e empilhar.
-  \item Reduzir $F$ para $E$ e empilhar.
-  \item Reduzir $E+E$ para \emph{resultado}.
+  \item Reduzir $F$ para $T$ e empilhar.
+  \item Reduzir $T+T$ para $T$.
+	\item Reduzir $T$ para \emph{expressao}.
 \end{enumerate}
 
 Nesse momento, o analisador sintático retorna informando que o programa está
-correto e que a sequência de tokens foi aceita como válida para a gramática
-definida, ou seja, o analisador ``aceitou'' o programa.
+correto, que a sequência de tokens foi aceita como válida para a gramática
+definida. Mais detalhes de como são feitas as escolhas entre \emph{carregar} um token
+e escolher a regra para efetuar uma \emph{redução} podem ser encontradas em
+\citeonline{new-dragon-pt}
 
 \subsubsection{Geradores de Analisadores Sintáticos Ascendentes}
 \label{sec:yacc}
 
+Conforme citado na Seção \ref{sec:asc_syntax_analisys}, não é usual a
+implementação manual de um Analisador Sintático Ascendente. Dessa forma, temos
+alguns geradores que simplificam esse processo para o implementador de um
+compilador.
+
+Um gerador amplamente utilizado é o \emph{YACC} (do inglês \emph{yet another
+compiler compiler {--} ``mais um compilador de compiladores''}
+\cite{louden97-pt}.
+
+Segundo \citeonline{yacc}:
+
+\begin{citacao}{4cm}{0cm} \footnotesize \emph
+Yacc provides a general tool for imposing structure on the input to a computer
+program. The Yacc user prepares a specification of the input process; this
+includes rules describing the input structure, code to be invoked when these
+rules are recognized, and a low-level routine to do the basic input. Yacc then
+generates a function to control the input process. This function, called a
+parser, calls the user-supplied low-level input routine (the lexical analyzer)
+to pick up the basic items (called tokens) from the input stream. These tokens
+are organized according to the input structure rules, called grammar rules;
+when one of these rules has been recognized, then user code supplied for this
+rule, an action, is invoked; actions have the ability to return values and
+make use of the values of other actions.
+\end{citacao}
+
+Um arquivo de especificação \emph{YACC} possui o formato básico conforme
+o demonstrado na Listagem \ref{lst:yacc_file_format}. Na seção de
+\emph{definições}, primeira parte da especificação, é incluido entre os
+caracteres \emph{\%\{} e \emph{\%\}} os trechos de código que deverão ser
+incluídos diretamente no analisador sintático gerado. Normalmente, são
+incluidos nesse ponto da especificação os \emph{headers} necessários, bem
+como as declarações de funções auxiliares necessárias.
+
+Ainda na seção de \emph{definições}, são incluidos as definições da união que
+armazenará os nós da árvore sintática produzida (verificar Apêndice
+\ref{apx:listings} Listagem \ref{parser.y}), dos tokens que estão presentes na
+gramática a ser reconhecida, o tipo de retorno dos \emph{não-terminais} e a
+precedência dos operadores binários.
+
+\begin{lstlisting}[label=lst:yacc_file_format, caption=Formato Especificação YACC]
+{definicoes}
+%%
+{regras}
+%%
+{rotinas auxiliares}
+\end{lstlisting}
+
+Na seção de \emph{regras}, são definidas as regras sintáticas da gramática.
+Para isso é utilizada uma notação BNF. Após a definição de cada regra, é
+incluido entre os caracteres \emph{\{} e \emph{\}} um trecho de código em
+linguagem C, que representa a \emph{ação semântica} que deverá ser executada
+quando aquela regra for encontrada.
+
+Por fim, na seção de \emph{rotinas auxiliares} são incluidas quaisquer funções
+que forem necessárias para a execução do analisador sintático. Comumente é
+incluida nessa seção a função que informa os erros encontrados pelo analisador
+sintático.
+
+\begin{lstlisting}[label=lst:yacc_example, caption=Exemplo de especificação
+YACC]
+%{
+#include <stdlib.h>
+#include <stdio.h>
+
+int yylex(void);
+int yyerror(const char *, ...);
+
+int resultado;
+%}
+
+%union{
+	int valor;
+}
+
+%token MAIS MENOS VEZES PARD PARE
+%token <valor> numero
+
+%%
+
+expressao = termo { resultado = $1; }
+          ;
+
+termo = termo MAIS termo  { $$ = $1 + $3 }
+      | termo MENOS termo { $$ = $1 - $3 }
+      | fator             { $$ = $1 }
+      ;
+
+fator = fator VEZES fator { $$ = $1 * $3 }
+      | PARE termo PARD   { $$ = $1 }
+      | numero            { $$ = yylval.valor }
+			;
+
+%%
+
+void yyerror(const char * s, ...) {
+  printf("erro de sintaxe: %s\n", s);
+  return;
+}
+\end{lstlisting}
+
+Na Listagem \ref{lst:yacc_example} temos um exemplo concreto de uma
+especificação para \emph{YACC}. Foi considerado, para essa especificação, que
+o analisador sintático interagiria com o analisador léxico através da chamada
+de função \emph{yylex()}. Essa função retorna um inteiro que representa o tipo
+de token reconhecido pelo analisador léxico. Em nosso exemplo temos as
+representações \textbf{MAIS}, \textbf{MENOS}, \textbf{VEZES}, \textbf{PARE},
+\textbf{PARD}, que significam, respectivamente os caracteres \textbf{+},
+\textbf{-}, \textbf{*}, \textbf{(}, \textbf{)}.
+
+O token \emph{numero} também é retornado pelo analisador léxico, mas além do
+valor de retorno, é disponibilizado na estrutura \emph{yylval} o valor léxico
+correspondente ao token. É possível perceber na listagem \ref{lst:yacc_example}
+algumas pseudo-variáveis (aquelas iniciadas pelo caractere \emph{\$} nas ações
+semânticas). A variável \emph{\$\$} indica o valor retornado pela ação
+semântica. As variáveis representadas por \emph{\$n} em que $n \in \{1, 2, 3,
+\dotsc\}$ representam os valores retornados por cada não-terminal reconhecido.
+
+Por fim, na seção de \emph{rotinas auxiliares}, é definida a função
+\emph{yyerror()} que é ativada quando o analisador sintático encontra algum
+erro.
