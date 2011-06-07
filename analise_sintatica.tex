@@ -192,13 +192,13 @@ make use of the values of other actions.
 
 Um arquivo de especificação \emph{YACC} possui o formato básico conforme
 o demonstrado na Listagem \ref{lst:yacc_file_format}. Na seção de
-\emph{definições}, primeira parte da especificação, é incluido entre os
+\emph{definições}, primeira parte da especificação, é incluído entre os
 caracteres \emph{\%\{} e \emph{\%\}} os trechos de código que deverão ser
 incluídos diretamente no analisador sintático gerado. Normalmente, são
-incluidos nesse ponto da especificação os \emph{headers} necessários, bem
+incluídos nesse ponto da especificação os \emph{headers} necessários, bem
 como as declarações de funções auxiliares necessárias.
 
-Ainda na seção de \emph{definições}, são incluidos as definições da união que
+Ainda na seção de \emph{definições}, são incluídos as definições da união que
 armazenará os nós da árvore sintática produzida (verificar Apêndice
 \ref{apx:listings} Listagem \ref{parser.y}), dos tokens que estão presentes na
 gramática a ser reconhecida, o tipo de retorno dos \emph{não-terminais} e a
@@ -214,13 +214,13 @@ precedência dos operadores binários.
 
 Na seção de \emph{regras}, são definidas as regras sintáticas da gramática.
 Para isso é utilizada uma notação BNF. Após a definição de cada regra, é
-incluido entre os caracteres \emph{\{} e \emph{\}} um trecho de código em
+incluído entre os caracteres \emph{\{} e \emph{\}} um trecho de código em
 linguagem C, que representa a \emph{ação semântica} que deverá ser executada
 quando aquela regra for encontrada.
 
-Por fim, na seção de \emph{rotinas auxiliares} são incluidas quaisquer funções
+Por fim, na seção de \emph{rotinas auxiliares} são incluídas quaisquer funções
 que forem necessárias para a execução do analisador sintático. Comumente é
-incluida nessa seção a função que informa os erros encontrados pelo analisador
+incluída nessa seção a função que informa os erros encontrados pelo analisador
 sintático.
 
 \begin{lstlisting}[label=lst:yacc_example, caption=Exemplo de especificação
