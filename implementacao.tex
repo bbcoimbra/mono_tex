@@ -276,7 +276,7 @@ implementação.
 
 
 \subsection{Tabela de Símbolos}
-\label{sec:symtab}
+\label{sec:implement_symtab}
 
 Dada a simplicidade da gramática proposta (haver apenas um escopo global,
 \dots), a tabela de símbolos é necessária apenas para manter os nomes e
@@ -287,7 +287,7 @@ apenas operações sobre números inteiros.
 Sua implementação foi feita baseada numa \emph{Tabela de Hashs de
 endereçamento aberto} e a Listagem está disponível no Apêndice
 \ref{apx:listings} Listagens \ref{symtab.h} e \ref{symtab.c}. Para
-mais informações, consulte a Seção \ref{sec:hashtable}.
+mais informações, consulte a Seção \ref{sec:hashing}.
 
 As variáveis são incluídas na tabela, pelo analisador sintático, durante o
 reconhecimento de uma instrução de leitura ou atribuição, na primeira vez em
