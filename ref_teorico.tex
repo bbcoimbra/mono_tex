@@ -24,13 +24,13 @@ no arquivo do programa-fonte, em unidades significativas, chamadas
 \emph{tokens}, e encaminhá-las para o \emph{Analisador Sintático}.
 
 Por sua vez, o \emph{Analisador Sintático} verifica se o fluxo de tokens
-recebidos pelo Analisador Léxico é valido para a gramática (ou linguagem) que
+recebidos pelo Analisador Léxico é válido para a gramática (ou linguagem) que
 foi definida. Usualmente o Analisador Sintático produz uma estrutura
 (tipicamente uma do tipo árvore) que representa o programa fonte
 \cite{new-dragon-pt}.
 
 O \emph{Analisador Semântico} recebe a estrutura produzida pelo Analisador
-Sintático e, principalmente, verifica a se as operações são coerentes para os
+Sintático e, principalmente, verifica se as operações são coerentes para os
 tipos de dados utilizados e faz a inferência dos tipos de dados. Ao final do
 processo temos uma \emph{Árvore Anotada}. As notas (informações de inferência,
 por exemplo) podem ser incluídas diretamente na estrutura recebida do
@@ -45,7 +45,7 @@ execute de forma mais eficiente.
 Podem haver outras fases intermediárias durante o processo, como, por exemplo,
 as fases de Otimização de Código, dependentes ou não da máquina-alvo.
 
-Nas subseções seguintes, discutiremos mais profundamente cada uma dessas etapas
+Nas próximas Seções, discutiremos mais profundamente cada uma dessas etapas
 do processo de compilação.
 
 \input{analise_lexica}

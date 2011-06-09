@@ -76,7 +76,7 @@ conforme definido a cima, e é livre de contexto pois a parte a esquerda de uma
 regra de produção pode ser substituída pelo seu corpo em qualquer ponto,
 independentemente de onde ocorra a parte esquerda da regra \cite{louden97-pt}.
 
-Em contrapartida, uma produção em uma gramática sensível a contexto é demonstrada
+Em contrapartida, uma produção em uma gramática sensível ao contexto é demonstrada
 abaixo:
 \[
 	\gamma{}A{}\beta \rightarrow \gamma\alpha\beta
@@ -135,8 +135,8 @@ fator = fator * fator
 \end{lstlisting}
 
 Dados a gramática exemplo da Listagem \ref{lst:grammar_example} e o programa
-da Listagem \ref{lst:source_example}, e considerando os símbolos $T$, $F$
-e $N$ como os não-terminais \emph{termo}, \emph{fator} e \emph{numero},
+da Listagem \ref{lst:source_example}, e considerando os símbolos $T$, $F$ como
+os não-terminais \emph{termo}, \emph{fator} e $N$ como o terminal \emph{numero},
 respectivamente, que \emph{numero} representa um número inteiro, teremos os
 seguintes passos executados pelo analisador sintático:
 
@@ -198,7 +198,7 @@ incluídos diretamente no analisador sintático gerado. Normalmente, são
 incluídos nesse ponto da especificação os \emph{headers} necessários, bem
 como as declarações de funções auxiliares necessárias.
 
-Ainda na seção de \emph{definições}, são incluídos as definições da união que
+Ainda na seção de \emph{definições}, são incluídas as definições da união que
 armazenará os nós da árvore sintática produzida (verificar Apêndice
 \ref{apx:listings} Listagem \ref{parser.y}), dos tokens que estão presentes na
 gramática a ser reconhecida, o tipo de retorno dos \emph{não-terminais} e a
