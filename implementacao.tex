@@ -117,6 +117,28 @@ disponibilidade de ferramentas e literatura sobre a referida linguagem. Mais
 informações podem ser obtidas em \citeonline{c-book}, \citeonline{KeR} e
 \citeonline{schildt}
 
+\begin{figure}[htb]
+	\centering
+	\includegraphics[scale=0.43]{compiling_schema}
+	\caption{Módulos do Compilador}
+	\label{fig:compiler_schema}
+\end{figure}
+
+A Figura \ref{fig:compiler_schema} demonstra o esquema de interação entre
+os módulos do compilador. O programa-fonte é lido pelo \emph{Analisador
+Léxico} que produz o \emph{fluxo de tokens} que alimenta o \emph{Analisador
+Sintático}. Este verifica se os tokens recebidos são corretos para a
+\emph{gramática} determinada, produz a \emph{Árvore Sintática} e insere e
+consulta entradas na \emph{Tabela de Símbolos}. O \emph{Gerador C} navega
+na \emph{Árvore Sintática} para gerar as construções correspondentes
+em C, consultando a \emph{Tabela de Símbolos} quando necessário.
+O \emph{Gerador DOT} monta a representação gráfica apenas com as
+informações disponibilizadas pela \emph{Árvore Sintática}. Por fim,
+compilamos o programa C gerado, com um compilador C padrão, para obtermos
+o programa executável e compilamos o arquivo DOT (\emph{Grafo DOT}) com o
+aplicativo \textbf{dot} (Seção \ref{sec:impl_gen_dot}) para obtermos a
+representação gráfica da lógica do programa-fonte.
+
 \subsection{Estruturas de Dados}
 As principais \emph{Estruturas de Dados} estão definidas na Listagem
 \ref{global.h} (global.h). São definidos três enumeradores que serão
