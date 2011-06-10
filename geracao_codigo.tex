@@ -102,6 +102,8 @@ a definições de nós e arestas \cite{gansner09}.
 Um nó é criado quando o seu nome aparece pela primeira vez no arquivo. As
 arestas são criadas quando dois nós são ligados pelo operador de aresta {->}.
 
+\lstinputlisting[label=lst:dot_example, caption=Exemplo de Grafo Expresso em DOT]{src_files/dot_example.gv}
+
 Na Listagem \ref{lst:dot_example} temos o exemplo de um grafo escrito em
 DOT que após sua compilação com o comando
 $$
@@ -110,9 +112,7 @@ $$
 $$
 gerará a representação gráfica demonstrada na Figura \ref{fig:dot_example}.
 
-\lstinputlisting[label=lst:dot_example, caption=Exemplo de Grafo Expresso em DOT]{src_files/dot_example.gv}
-
-\begin{figure}
+\begin{figure}[htb]
 	\begin{center}
 		\includegraphics[scale=0.4]{dot_example}
 	\end{center}
