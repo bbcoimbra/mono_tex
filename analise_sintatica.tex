@@ -85,6 +85,46 @@ abaixo:
 Nesta regra, \(A\) pode ser substituído por \(\alpha\), somente se
 \(A\) estiver entre os terminais \(\gamma\) e \(\beta\).
 
+\subsubsection{Ambiguidade}
+Uma gramática é dita ambígua quando ela pode gerar duas árvores de derivação
+distintas. Consideremos a gramática da Listagem \ref{lst:ambig} e a expressão
+abaixo:
+$$
+45 + 3 * 5
+$$
+
+\begin{lstlisting}[label=lst:ambig, caption = Exemplo de Gramática Ambígua]
+exp = exp op exp
+    | (exp)
+		| numero
+		;
+op  = + | - | *
+    ;
+\end{lstlisting}
+
+Essa gramática possibilita a geração de duas árvores sintáticas distintas
+conforme demonstrado na Figura \ref{fig:ambig}.
+
+\begin{figure}
+	\centering
+	\synttree[*[+[45][3]][5]]
+	\qquad \qquad
+	\synttree[+[45][*[3][5]]]
+	\caption{Árvores Sintáticas Ambíguas}
+	\label{fig:ambig}
+\end{figure}
+
+Gramáticas que possuem essa característica geram problemas para o analisador
+sintático, pois não permitem representar com precisão a estrutura do
+programa. A árvore a esquerda representa a expressão $(45+3)*5$ enquanto
+a da direita representa $(45+(3*5))$.
+
+Uma forma de resolver este problema é utilizar uma \emph{regra de eliminação
+de ambiguidade}. Regras de \emph{Precedência} e \emph{Associatividade} são
+exemplos de regra de eliminação de ambiguidade. Desta forma, a forma preferida
+de interpretar a expressão $45+3*5$ é aquela demonstrada na árvore a direita
+na Figura \ref{fig:ambig}\cite{louden97-pt}.
+
 \subsubsection{Análise Sintática Ascendente}
 \label{sec:asc_syntax_analisys}
 O processo de análise sintática ascendente foi proposto por Donald E. Knuth
