@@ -1,0 +1,10 @@
+digraph G {
+	principal     -> analise -> execucao;
+	principal     -> inicializacao;
+	principal     -> limpeza;
+	execucao      -> gera_cadeia_caracteres;
+	execucao      -> imprime_formatado;
+	inicializacao -> gera_cadeia_caracteres;
+	principal     -> imprime_formatado;
+	execucao      -> compare;
+}
