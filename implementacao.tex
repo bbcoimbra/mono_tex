@@ -389,6 +389,23 @@ As funções que requerem Entrada e Saída (I/O) são implementadas com chamadas
 as chamadas \emph{scanf()} para Entrada e \emph{printf()} para a saída, ambas
 funções contidas na biblioteca-padrão da linguagem C.
 
+Como exemplo do resultado produzido, tomemos com exemplo o programa que
+calcula a Sequência de Fibonacci apresentado na Seção \ref{sec:implementacao}
+Listagem \ref{lst:fib}. Após compilado, este programa resultará no programa C
+apresentado na Listagem \ref{lst:fib_c}.
+
+\lstinputlisting[label=lst:fib_c, caption=Programa Fibonacci Compilado em
+C]{compiler-src/examples/fibonacci/fibonacci.c}
+
+Um outro exemplo (programa que calcula um número fatorial) é apresentado nas
+Listagens \ref{lst:fat} e \ref{lst:fat_c}.
+
+\lstinputlisting[label=lst:fat, caption=Programa
+Fatorial]{compiler-src/examples/fatorial/fatorial.lang}
+
+\lstinputlisting[label=lst:fat_c, caption=Programa Fatorial Compilado em
+C]{compiler-src/examples/fatorial/fatorial.c}
+
 \subsubsection{Geração Código DOT}
 \label{sec:gen_dot}
 
