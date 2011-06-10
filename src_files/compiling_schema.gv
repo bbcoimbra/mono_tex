@@ -1,0 +1,23 @@
+digraph E{
+
+rankdir = LR;
+node [shape = box]
+
+fonte [label = "Programa\nFonte"];
+lex [label = "Analisador\nLéxico\n(Flex)"];
+yacc [label = "Analisador\nSintático\n (Bison)"];
+symtab [label = "Tabela de\nSímbolos"]
+cgen [label = "Gerador C"];
+dotgen [label = "Gerador DOT"];
+csource [label = "Programa C"];
+dotsource [label = "Grafo DOT"];
+
+fonte -> lex;
+lex -> yacc;
+yacc -> cgen;
+yacc -> symtab [dir=both];
+yacc -> dotgen;
+symtab -> cgen;
+cgen -> csource;
+dotgen -> dotsource;
+}
