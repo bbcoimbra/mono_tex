@@ -1,1 +1,32 @@
 \section{Introdução}
+Este trabalho tem como principal objetivo descrever a implementação de um
+compilador capaz de gerar uma representação gráfica da lógica do programa.
+Mais precisamente, este compilador gera duas representações, semanticamente
+equivalentes, do programa-fonte: uma em linguagem C, que pode ser compilada
+por um compilador C padrão, e outra em linguagem DOT que, ao ser compilada,
+gera uma representação gráfica da lógica do programa. Espera-se que esta
+representação gráfica seja uma ferramenta que facilite a aprendizagem
+de programação, uma vez que ela torna explícito fluxo de execução do
+programa para os novatos nesta área.
+
+Serão apresentadas técnicas e exemplos de análise léxica e sintática,
+geração de código objeto e algumas estruturas de dados necessárias para a
+implementação. Também serão demonstrados neste trabalho a utilização de
+ferramentas de auxílio ao desenvolvimento de compiladores, como geradores de
+analisadores léxicos e sintáticos.
+
+O trabalho foi estruturado de forma que o leitor faça uma leitura linear,
+sem que haja saltos entre as seções. Na primeira seção deste trabalho
+(Referencial Teórico) são apresentados, de forma sucinta, os conceitos
+fundamentais sobre os tema.
+
+Na seção seguinte (Implementação) é discutida a implementação do
+compilador propriamente dito, quais foram as técnicas, ferramentas,
+algoritmos e estruturas de dados utilizadas. A última seção (Conclusão)
+apresenta os resultados obtidos, bem como as limitações do projeto e
+sugestões de melhoria.
+
+No Apêndice encontra-se a listagem completa dos programas-fonte.
+O projeto completo também pode ser encontrado em
+\url{http://github.com/bbcoimbra/compiler}, mesmo local em que serão
+incluídas as correções e melhorias.
